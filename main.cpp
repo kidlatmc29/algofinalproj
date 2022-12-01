@@ -2,7 +2,10 @@
 // CPSC 4100 - Final Project 
 
 // References: 
-// 
+// https://bastian.rieck.me/blog/posts/2010/bin_packing/
+// https://github.com/Pseudomanifold/bin-packing-heuristics
+
+// my-data-set was generating using the perl script in https://github.com/Pseudomanifold/bin-packing-heuristics
 
 #include <iostream> 
 #include <iomanip>
