@@ -67,6 +67,9 @@ int main()
     cin >> binSize;
     readData(objWeights);
 
+    cout << "Using a data set with " << numOfObjs << " objects with a bin size of " 
+         << binSize << "." << endl << endl;
+
     cout << "====== Find Minimum Number of Bins ======= " << endl;
     cout << "=== (Intractable but Optimal Solution) === " << endl;
     printStats(findMinNumBins(numOfObjs, binSize, objWeights));
@@ -173,7 +176,6 @@ stats findNextFit(int n, int K, vector<int> &objWeights)
             currentBinWeight -= objWeights[i];
         }
     }
-
     clock_t end = clock(); 
 
     nextFitStats.timeElapsed = (end-start)/static_cast<double>(CLOCKS_PER_SEC);
