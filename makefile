@@ -1,8 +1,13 @@
-main : main.o
-	g++ -o main
+CC = g++ 
 
-main.o: main.cpp
-	g++ -c -pedantic -Wall -Werror main.cpp
+CFLAGS = -g -Wall
+
+TARGET = main
+
+all: $(TARGET)
+
+$(TARGET) : $(TARGET).cpp
+			$(CC) $(CFLAGS) -o $(TARGET) $(TARGET).cpp
 
 clean:
 	rm *.o

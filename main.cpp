@@ -21,10 +21,17 @@ struct Stats
 };
 
 /*
-    Pre Conditions: 
-    Post Conditions: 
+    Pre Conditions: None. 
+    Post Conditions: None.
 */
-void readData(int n, int K, vector<int> objWeights);
+void welcomeMsg();
+
+/*
+    Pre Conditions: File name was passed in as a console argument. 
+    Post Conditions: objWeights is filled with all weights listed in the file. 
+                    returns an int array that holds the numOfObjs and binSize
+*/
+void readData(int &n, int &K, vector<int> objWeights);
 
 /*
     Pre Conditions: 
@@ -41,30 +48,38 @@ Stats findFirstFit();
 int main()
 {
     vector<int> objWeights; 
-    int n, K;
+    int numOfObjs = 0;
+    int binSize = 0; 
 
-    cout << "CPSC 4100 - Final Project: Comparing Bin-Packing " << endl;
+    welcomeMsg(); 
     
-    readData(n, K, objWeights);
+    readData(numOfObjs, binSize, objWeights);
+
+    // cout << "numOfObjs = " << numOfObjs << endl;
+    // cout << "binSize = " << binSize << endl; 
+
+    cout << endl << endl; 
 
     return 0;
 }
 
+void welcomeMsg()
+{
+    cout << endl << endl << "CPSC 4100 - Final Project: Comparing Bin-Packing " << endl;
+}
+
 // reading in list of data from input file from cmd line
-void readData(int n, int K, vector<int> objWeights)
+void readData(int &n, int &K, vector<int> objWeights)
 {
     int currentWeight = 0; 
-    int sumWeight = 0; 
+
     cin >> n; 
-    cin >> K; 
+    cin >> K;
 
     while (cin >> currentWeight)
     {
         objWeights.push_back(currentWeight);
-        sumWeight += currentWeight; 
     }
-
-    cout << "The sum of the weight for " << n << " objects is " << sumWeight << endl;
 }
 
 // 1.) intractable but optimal solution 
@@ -79,7 +94,7 @@ Stats findMinNumBins()
 }
 
 // 2.) use heuristic from resourse 
-Stats findFirstFit()
+Stats findFirstFit(int n, int K, vector<int> objWeights)
 {
     Stats currentStats;
     currentStats.elapsedTime = 0.0;
