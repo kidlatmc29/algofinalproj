@@ -11,14 +11,9 @@
 #include <iomanip>
 #include <fstream>
 #include <vector>
+#include <ctime>
 
 using namespace std; 
-
-struct Stats
-{
-    int numOfBins; 
-    double elapsedTime; 
-};
 
 /*
     Pre Conditions: None. 
@@ -31,50 +26,49 @@ void welcomeMsg();
     Post Conditions: objWeights is filled with all weights listed in the file. 
                     returns an int array that holds the numOfObjs and binSize
 */
-void readData(int &n, int &K, vector<int> objWeights);
+void readData(vector<int> &objWeights);
 
 /*
     Pre Conditions: 
     Post Conditions: 
 */
-Stats findMinNumBins();
+void findMinNumBins();
 
 /*
     Pre Conditions: 
     Post Conditions: 
 */
-Stats findFirstFit();
+void findNextFit(int n, int k, vector<int> &objWeights);
 
 int main()
-{
+{  
     vector<int> objWeights; 
     int numOfObjs = 0;
     int binSize = 0; 
 
     welcomeMsg(); 
-    
-    readData(numOfObjs, binSize, objWeights);
 
-    // cout << "numOfObjs = " << numOfObjs << endl;
-    // cout << "binSize = " << binSize << endl; 
+    cin >> numOfObjs; 
+    cin >> binSize;
+    readData(objWeights);
+
+    cout << "=== Next Fit Stats === " << endl;
+    findNextFit(numOfObjs, binSize, objWeights);
+    cout << "========================" <<  endl;
 
     cout << endl << endl; 
-
     return 0;
 }
 
 void welcomeMsg()
 {
-    cout << endl << endl << "CPSC 4100 - Final Project: Comparing Bin-Packing " << endl;
+    cout << endl << endl << "CPSC 4100 - Final Project: Comparing Bin-Packing " << endl << endl;
 }
 
 // reading in list of data from input file from cmd line
-void readData(int &n, int &K, vector<int> objWeights)
+void readData(vector<int> &objWeights)
 {
     int currentWeight = 0; 
-
-    cin >> n; 
-    cin >> K;
 
     while (cin >> currentWeight)
     {
@@ -83,22 +77,31 @@ void readData(int &n, int &K, vector<int> objWeights)
 }
 
 // 1.) intractable but optimal solution 
-Stats findMinNumBins()
+void findMinNumBins()
 {
-    Stats currentStats;
-    currentStats.elapsedTime = 0.0;
-    currentStats.numOfBins = 0; 
 
-    
-    return currentStats;
 }
 
 // 2.) use heuristic from resourse 
-Stats findFirstFit(int n, int K, vector<int> objWeights)
+void findNextFit(int n, int K, vector<int> &objWeights)
 {
-    Stats currentStats;
-    currentStats.elapsedTime = 0.0;
-    currentStats.numOfBins = 0; 
+    int numOfBins = 0; 
+    int binCap = K; 
 
-    return currentStats; 
+    clock_t start = clock();
+    for(int i = 0; i < n; i++)
+    {
+        if(objWeights[i] > binCap)
+        {
+            numOfBins++;
+            binCap = K - objWeights[i];
+        } else {
+            binCap -= objWeights[i];
+        }
+    }
+
+    clock_t end = clock(); 
+
+    cout << "Time Elapsed: " << fixed  << setprecision(10) << (end-start)/static_cast<double>(CLOCKS_PER_SEC) <<  " miliseconds" << endl;
+    cout << "Num of Bins " << numOfBins << endl;
 }
